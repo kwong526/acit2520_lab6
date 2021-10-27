@@ -11,15 +11,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 
-
 app.get("/", (req, res) => res.render("pages/index"));
 
 app.get("/myForm", (req, res) => res.render("pages/myForm"));
 
 app.post("/myForm", (req, res) => {
-  let formData = req.body;
+  let formData = req.body; 
   let movies = formData.movie_list.split(",");
-  res.render("pages/index", { movie_list: movies })
+  res.render("pages/index", { movie_list: movies });
 });
 
 app.get("/myListQueryString", (req, res) => {
