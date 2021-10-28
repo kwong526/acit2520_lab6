@@ -12,18 +12,22 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 
-app.get("/", (req, res) =>
+app.get("/", (req, res) => {
     res.render("pages/index", {
         movie_list: ["Transformers", "Gladiator", "Harry Potter"],
-    })
-);
+        user: ["RJ", "Clinton", "Armaan"],
+    });
+});
 
 app.get("/myForm", (req, res) => res.render("pages/myForm"));
 
 app.post("/myForm", (req, res) => {
     let formData = req.body;
     let movies = formData.movie_list.split(",");
-    res.render("pages/index", { movie_list: movies });
+    res.render("pages/index", {
+        movie_list: movies,
+        user: ["RJ", "Clinton", "Armaan"],
+    });
 });
 
 app.get("/myListQueryString", (req, res) => {
@@ -33,7 +37,10 @@ app.get("/myListQueryString", (req, res) => {
         res.send("<p>Please add a movie1 and movie2 to your query string!</p>");
     }
     let movieList = [movie1, movie2];
-    res.render("pages/index", { movie_list: movieList });
+    res.render("pages/index", {
+        movie_list: movieList,
+        user: ["RJ", "Clinton", "Armaan"],
+    });
 });
 
 app.get("/search/:movieName", async(req, res) => {
