@@ -4,6 +4,7 @@
  Rodolf John Gayem - A01157958
  (Make sure you also specify on the Google Doc)
 */
+const fs = require("fs").promises;
 const express = require("express");
 
 let app = express();
@@ -16,19 +17,33 @@ app.get("/", (req, res) => res.render("pages/index"));
 app.get("/myForm", (req, res) => res.render("pages/myForm"));
 
 app.post("/myForm", (req, res) => {
-  let formData = req.body; 
-  let movies = formData.movie_list.split(",");
-  res.render("pages/index", { movie_list: movies });
+    let formData = req.body;
+    let movies = formData.movie_list.split(",");
+    res.render("pages/index", { movie_list: movies });
 });
 
 app.get("/myListQueryString", (req, res) => {
-  // Add your implementation here
+    let movie1 = req.query.movie1;
+    let movie2 = req.query.movie2;
+    if (movie1 === undefined || movie2 === undefined) {
+        res.send("<p>Please add a movie1 and movie2 to your query string!</p>");
+    }
+    let movieList = [movie1, movie2];
+    res.render("pages/index", { movie_name: movieList });
 });
 
 app.get("/search/:movieName", (req, res) => {
-  // Add your implementation here
+    let movieName = req.params.movieName;
+    const content = fs.readFile("movieDescriptions.txt");
+    const data = content.toString();
+    if (data.includes(movieName)) {
+        let new_content = data.split(":");
+        res.render("pages/searchResult", { description: new_content });
+    } else {
+        res.send("<p>Movie could not be found</p>");
+    }
 });
 
 app.listen(3000, () => {
-  console.log("Server is running on port 3000 🚀");
+    console.log("Server is running on port 3000 🚀");
 });
