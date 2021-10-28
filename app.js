@@ -46,14 +46,12 @@ app.get("/myListQueryString", (req, res) => {
 app.get("/search/:movieName", async(req, res) => {
     let movieName = req.params.movieName;
     const content = await fs.readFile("movieDescriptions.txt");
-
-    if (content.includes(movieName)) {
-        let data = content.toString();
-        let new_content = data.split(":");
-        res.render("pages/searchResult", { description: new_content });
-    } else {
-        res.send("<p>Movie could not be found</p>");
-    }
+    let data = content.toString();
+    let new_content = data.split(":");
+    res.render("pages/searchResult", {
+        description: new_content,
+        movie_name: movieName,
+    });
 });
 
 app.listen(3000, () => {

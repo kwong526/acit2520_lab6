@@ -4,8 +4,12 @@ body {
     font-family: 'Open Sans', sans-serif;
 }
 
+.description {
+    color: #f1faee;
+}
+
 a {
-    color: #FAFAFA;
+    color: #f1faee
 }
 
 a:hover {
