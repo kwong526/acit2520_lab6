@@ -12,7 +12,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 
-app.get("/", (req, res) => res.render("pages/index"));
+app.get("/", (req, res) =>
+    res.render("pages/index", {
+        movie_list: ["Transformers", "Gladiator", "Harry Potter"],
+    })
+);
 
 app.get("/myForm", (req, res) => res.render("pages/myForm"));
 
@@ -29,14 +33,15 @@ app.get("/myListQueryString", (req, res) => {
         res.send("<p>Please add a movie1 and movie2 to your query string!</p>");
     }
     let movieList = [movie1, movie2];
-    res.render("pages/index", { movie_name: movieList });
+    res.render("pages/index", { movie_list: movieList });
 });
 
-app.get("/search/:movieName", (req, res) => {
+app.get("/search/:movieName", async(req, res) => {
     let movieName = req.params.movieName;
-    const content = fs.readFile("movieDescriptions.txt");
-    const data = content.toString();
-    if (data.includes(movieName)) {
+    const content = await fs.readFile("movieDescriptions.txt");
+
+    if (content.includes(movieName)) {
+        let data = content.toString();
         let new_content = data.split(":");
         res.render("pages/searchResult", { description: new_content });
     } else {
