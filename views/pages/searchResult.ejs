@@ -9,17 +9,22 @@
 </head>
 
 <body>
-    <% if (description.includes(movie_name)) {%>
-        <h1 class="description">
-            <%= description[0] %>
-        </h1>
-        <p class="description">
-            <%= description[1] %>
-        </p>
-        <p><a href="/">Go back to homepage</a></p>
-        <% } else {%>
-            <p class="description">Movie could not found</p>
-            <% }%>
+    <% const movieExists = [] %>
+        <% description.forEach(movie => {%>
+            <% if (movie.includes(movie_name)) {%>
+                <h1 class="description">
+                    <%= movie[0] %>
+                </h1>
+                <p class="description">
+                    <%= movie[1] %>
+                </p>
+                <p><a href="/">Go back to homepage</a></p>
+                <% movieExists.push("found") %>
+                    <% }})%>
+
+                        <% if (movieExists[0] !== "found") {%>
+                            <p class="description">Movie could not be found</p>
+                            <% }%>
 
 </body>
 

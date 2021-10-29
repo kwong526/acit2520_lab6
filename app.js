@@ -47,9 +47,11 @@ app.get("/search/:movieName", async(req, res) => {
     let movieName = req.params.movieName;
     const content = await fs.readFile("movieDescriptions.txt");
     let data = content.toString();
-    let new_content = data.split(":");
+    let new_content = data.split("\n");
+    const movies = [];
+    new_content.forEach((movie) => movies.push(movie.split(":")));
     res.render("pages/searchResult", {
-        description: new_content,
+        description: movies,
         movie_name: movieName,
     });
 });
