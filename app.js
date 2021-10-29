@@ -45,6 +45,7 @@ app.get("/myListQueryString", (req, res) => {
 
 app.get("/search/:movieName", async(req, res) => {
     let movieName = req.params.movieName;
+    movieName = movieName.replace("%20", " ");
     const content = await fs.readFile("movieDescriptions.txt");
     let data = content.toString();
     let new_content = data.split("\n");
